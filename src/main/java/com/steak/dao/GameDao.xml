@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.steak.dao.GameDao">
+
+    <resultMap type="com.steak.entity.Game" id="gameMap1">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="introduction" column="introduction"/>
+        <result property="imgs" column="imgs"/>
+        <association property="type" column="type">
+            <result property="name" column="b.name"/>
+        </association>
+    </resultMap>
+
+    <select id="getIndexScrollInfo" resultMap="gameMap1">
+        SELECT id,name,
+            left(introduction,12) as introduction,
+            substring_index(imgs,';',1) as imgs
+                from t_game
+                    order by rand()
+                        limit 5
+	</select>
+
+    <select id="getIndexNewInfo" resultMap="gameMap1">
+        SELECT a.id,a.name,b.name as 'b.name',
+            left(introduction,50) as introduction,
+            substring_index(imgs,';',1) as imgs
+                from t_game a,t_type b
+                    where a.type = b.id
+                        order by rand() and releasedate desc
+                            limit 6
+	</select>
+
+    <resultMap type="com.steak.entity.Game" id="gameMap2">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="releasedate" column="releasedate"/>
+        <result property="developers" column="developers"/>
+        <result property="publisher" column="publisher"/>
+        <result property="money" column="money"/>
+        <result property="introduction" column="introduction"/>
+        <result property="imgs" column="imgs"/>
+        <association property="type" column="type">
+            <result property="name" column="b.name"/>
+        </association>
+    </resultMap>
+
+    <select id="getByType" resultMap="gameMap2">
+        SELECT a.id,a.name,a.releasedate,a.money,b.name as 'b.name',
+            left(introduction,50) as introduction,
+            substring_index(imgs,';',1) as imgs
+                from t_game a,t_type b
+                    where a.type = b.id and a.type = #{type}
+	</select>
+
+    <select id="getAllFree" resultMap="gameMap2">
+        SELECT a.id,a.name,a.releasedate,a.money,b.name as 'b.name',
+            left(introduction,50) as introduction,
+            substring_index(imgs,';',1) as imgs
+                from t_game a,t_type b
+                    where a.type = b.id and a.money = 0
+	</select>
+
+    <select id="getAllOrderByNew" resultMap="gameMap2">
+        SELECT a.id,a.name,a.releasedate,a.money,b.name as 'b.name',
+            left(introduction,50) as introduction,
+            substring_index(imgs,';',1) as imgs
+                from t_game a,t_type b
+                    where a.type = b.id
+                        order by releasedate desc
+	</select>
+
+    <select id="getAll" resultMap="gameMap2">
+        SELECT a.id,a.name,a.releasedate,a.money,a.publisher,a.developers,b.name as 'b.name',
+            left(introduction,50) as introduction,
+            substring_index(imgs,';',1) as imgs
+                from t_game a,t_type b
+                    where a.type = b.id
+	</select>
+
+    <resultMap type="com.steak.entity.Game" id="gameMap3">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="money" column="money"/>
+        <result property="releasedate" column="releasedate"/>
+        <result property="developers" column="developers"/>
+        <result property="publisher" column="publisher"/>
+        <result property="language" column="language"/>
+        <result property="introduction" column="introduction"/>
+        <result property="imgs" column="imgs"/>
+        <result property="mdfile" column="mdfile"/>
+        <association property="type" column="type">
+            <id property="id" column="b.id"/>
+            <result property="name" column="b.name"/>
+        </association>
+    </resultMap>
+
+    <select id="getById" resultMap="gameMap3">
+        select a.*,b.id as 'b.id',b.name as 'b.name'
+            from t_game a,t_type b
+                where a.type = b.id
+                    and a.id = #{id}
+	</select>
+
+</mapper>
