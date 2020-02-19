@@ -4,6 +4,7 @@ import com.steak.entity.Game;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public interface GameDao {
 
     @Insert("insert into t_game values(null,#{name},#{typeId},#{money},#{releasedate},#{developers},#{publisher},#{language},#{introduction},#{imgs},#{mdfile})")
     public int insertOne(Game game);
+
+    @Update("update t_game set name = #{name},type = #{typeId},money = #{money},releasedate = #{releasedate},developers = #{developers},publisher = #{publisher},language = #{language},introduction = #{introduction},imgs = #{imgs},mdfile = #{mdfile} where id = #{id}")
+    public int editOne(Game game);
 
     @Select("SELECT auto_increment FROM information_schema.tables where table_schema='steak' and table_name='t_game'")
     public int getAutoIncrementId();

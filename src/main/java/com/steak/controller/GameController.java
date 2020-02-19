@@ -102,4 +102,9 @@ public class GameController{
         gameService.insertOne(game);
     }
 
+    @RequestMapping("/editOne")
+    public void editOne(@RequestBody Game game,HttpServletRequest request,HttpSession session){
+        gameService.editOne(game);
+    }
+
 }

@@ -71,6 +71,10 @@ public class GameService {
         return gameDao.insertOne(game);
     }
 
+    public int editOne(Game game){
+        return gameDao.editOne(game);
+    }
+
     public void deleteImgByName(String filename){
         String path = System.getProperty("user.dir") + "/images/" + filename;
         File file = new File(path);
@@ -103,6 +107,8 @@ public class GameService {
 
         String fileName = RandomStringUtils.randomAlphanumeric(10) + fileType;
         String filePath = System.getProperty("user.dir") + "/images/" + autoIncrementId + "-" + fileName;
+
+        System.out.println("------------------" + filePath);
 
         InputStream inputStream = null;   //获取到文件
         try {

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin(allowCredentials="true")
@@ -47,6 +49,16 @@ public class UserController {
         Log.logger.info(IpUtil.getIpAddr(request) + " - " + session.getId() + " - " +
                 "退出登录");
         session.removeAttribute("loginUser");
+    }
+
+    @RequestMapping("/getAll")
+    public List<User> getAll(HttpServletRequest request,HttpSession session){
+        return userService.getAll();
+    }
+
+    @RequestMapping("/deleteById")
+    public int deleteById(int id,HttpServletRequest request,HttpSession session){
+        return userService.deleteById(id);
     }
 
 }

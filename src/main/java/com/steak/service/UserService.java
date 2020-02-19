@@ -5,6 +5,8 @@ import com.steak.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -15,5 +17,13 @@ public class UserService {
     }
 
     public User login(User user){return userDao.selectOne(user);}
+
+    public List<User> getAll(){
+        return userDao.getAll();
+    }
+
+    public int deleteById(int id){
+        return userDao.deleteById(id);
+    }
 
 }
